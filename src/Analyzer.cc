@@ -37,6 +37,7 @@
 #include "SSLProxy.h"
 #include "SSL-binpac.h"
 
+
 // Keep same order here as in AnalyzerTag definition!
 const Analyzer::Config Analyzer::analyzer_configs[] = {
 	{ AnalyzerTag::Error, "<ERROR>", 0, 0, 0, false },
@@ -166,6 +167,10 @@ const Analyzer::Config Analyzer::analyzer_configs[] = {
 	{ AnalyzerTag::Contents_RPC, "CONTENTS_RPC", 0, 0, 0, false },
 	{ AnalyzerTag::Contents_NFS, "CONTENTS_NFS", 0, 0, 0, false },
 	{ AnalyzerTag::Contents_SSL, "CONTENTS_SSL", 0, 0, 0, false },
+
+	{ AnalyzerTag::MDNS, "MDNS", 
+	        MDNS_Analyzer::InstantiateAnalyzer,
+		MDNS_Analyzer::Available, 0, false },
 };
 
 AnalyzerTimer::~AnalyzerTimer()

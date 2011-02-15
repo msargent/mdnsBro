@@ -45,6 +45,9 @@ namespace AnalyzerTag {
 		Contents_DCE_RPC, Contents_SMB, Contents_RPC, Contents_NFS,
 		Contents_SSL,
 		// End-marker.
+		MDNS,
+
+
 		LastAnalyzer
 	};
 };

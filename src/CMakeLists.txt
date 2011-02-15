@@ -199,6 +199,7 @@ binpac_target(ssl.pac
     ssl-defs.pac ssl-protocol.pac ssl-analyzer.pac)
 binpac_target(ssl-record-layer.pac
     ssl-defs.pac ssl.pac)
+binpac_target(mdns.pac mdns-protocol.pac mdns-analyzer.pac)
 
 ########################################################################
 ## bro target
