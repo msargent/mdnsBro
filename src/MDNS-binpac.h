@@ -37,26 +37,4 @@ protected:
 	binpac::DNS::DNS_Conn* interp;
 };
 
-#include "dns_tcp_pac.h"
-
-class DNS_TCP_Analyzer_binpac : public TCP_ApplicationAnalyzer {
-public:
-	DNS_TCP_Analyzer_binpac(Connection* conn);
-	virtual ~DNS_TCP_Analyzer_binpac();
-
-	virtual void Done();
-	virtual void DeliverStream(int len, const u_char* data, bool orig);
-	virtual void Undelivered(int seq, int len, bool orig);
-	virtual void EndpointEOF(TCP_Reassembler* endp);
-
-	static Analyzer* InstantiateAnalyzer(Connection* conn)
-		{ return new DNS_TCP_Analyzer_binpac(conn); }
-
-	static bool Available()
-		{ return (dns_request || dns_full_request) && FLAGS_use_binpac; }
-
-protected:
-	binpac::DNS_on_TCP::DNS_TCP_Conn* interp;
-};
-
 #endif

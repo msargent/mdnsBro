@@ -299,6 +299,7 @@ set(bro_SRCS
     List.cc
     Logger.cc
     Login.cc
+    MDNS-binpac.cc
     MIME.cc
     NCP.cc
     NFA.cc

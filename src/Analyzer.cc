@@ -20,6 +20,7 @@
 #include "FileAnalyzer.h"
 #include "DNS.h"
 #include "DNS-binpac.h"
+#include "MDNS-binpac.h"
 #include "DHCP-binpac.h"
 #include "Telnet.h"
 #include "Rlogin.h"
@@ -169,8 +170,8 @@ const Analyzer::Config Analyzer::analyzer_configs[] = {
 	{ AnalyzerTag::Contents_SSL, "CONTENTS_SSL", 0, 0, 0, false },
 
 	{ AnalyzerTag::MDNS, "MDNS", 
-	        MDNS_Analyzer::InstantiateAnalyzer,
-		MDNS_Analyzer::Available, 0, false },
+	        MDNS_Analyzer_binpac::InstantiateAnalyzer,
+		MDNS_Analyzer_binpac::Available, 0, false },
 };
 
 AnalyzerTimer::~AnalyzerTimer()

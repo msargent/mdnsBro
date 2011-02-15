@@ -4,7 +4,7 @@
 #include "TCP_Reassembler.h"
 
 MDNS_Analyzer_binpac::MDNS_Analyzer_binpac(Connection* conn)
-: Analyzer(AnalyzerTag::DNS_UDP_BINPAC, conn)
+: Analyzer(AnalyzerTag::MDNS, conn)
 	{
 	interp = new binpac::DNS::DNS_Conn(this);
 	did_session_done = 0;
@@ -20,7 +20,7 @@ MDNS_Analyzer_binpac::~MDNS_Analyzer_binpac()
 void MDNS_Analyzer_binpac::Done()
 	{
 	Analyzer::Done();
-
+ 
 	if ( ! did_session_done )
 		Event(udp_session_done);
 	}
@@ -44,49 +44,4 @@ void MDNS_Analyzer_binpac::ExpireTimer(double t)
 	else
 		ADD_ANALYZER_TIMER(&MDNS_Analyzer_binpac::ExpireTimer,
 				t + dns_session_timeout, 1, TIMER_DNS_EXPIRE);
-	}
-
-DNS_TCP_Analyzer_binpac::DNS_TCP_Analyzer_binpac(Connection* conn)
-: TCP_ApplicationAnalyzer(AnalyzerTag::DNS_TCP_BINPAC, conn)
-	{
-	interp = new binpac::DNS_on_TCP::DNS_TCP_Conn(this);
-	}
-
-DNS_TCP_Analyzer_binpac::~DNS_TCP_Analyzer_binpac()
-	{
-	delete interp;
-	}
-
-void DNS_TCP_Analyzer_binpac::Done()
-	{
-	TCP_ApplicationAnalyzer::Done();
-
-	interp->FlowEOF(true);
-	interp->FlowEOF(false);
-	}
-
-void DNS_TCP_Analyzer_binpac::EndpointEOF(TCP_Reassembler* endp)
-	{
-	TCP_ApplicationAnalyzer::EndpointEOF(endp);
-	interp->FlowEOF(endp->IsOrig());
-	}
-
-void DNS_TCP_Analyzer_binpac::DeliverStream(int len, const u_char* data,
-						bool orig)
-	{
-	TCP_ApplicationAnalyzer::DeliverStream(len, data, orig);
-
-	assert(TCP());
-
-	if ( TCP()->IsPartial() || TCP()->HadGap(orig) )
-		// punt-on-partial or stop-on-gap.
-		return;
-
-	interp->NewData(orig, data, data + len);
-	}
-
-void DNS_TCP_Analyzer_binpac::Undelivered(int seq, int len, bool orig)
-	{
-	TCP_ApplicationAnalyzer::Undelivered(seq, len, orig);
-	interp->NewGap(orig, len);
 	}
